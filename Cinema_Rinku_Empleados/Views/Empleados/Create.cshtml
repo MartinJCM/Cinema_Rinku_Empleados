@@ -1,0 +1,83 @@
+﻿@model Cinema_Rinku_Empleados.Models.EmpleadosModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card">
+    <h5 class="card-header">Nuevo Empledo</h5>
+    <div class="card-body">
+
+        <form asp-action="Create">
+            <div class="row">
+                <div class="col-md-3 mb-2">
+                    @*<label asp-for="NumeroEmpleado" class="control-label"></label>*@
+                    @Html.LabelFor(m => m.NumeroEmpleado)
+                </div>
+                <div class="col-md-4">
+                    @*<label asp-for="RolId" class="control-label"></label>*@
+                    @Html.LabelFor(m => m.RolId)
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+
+            <div class="row col-">
+                <div class="col-md-3 mb-4">
+                    @*<input asp-for="NumeroEmpleado" class="form-control" />*@
+                    @Html.TextBoxFor(m => m.NumeroEmpleado, new { @class = "form-control"})
+                    <span asp-validation-for="NumeroEmpleado" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">       
+                    @Html.DropDownListFor(m => m.RolId, Model.ListRoles, new { @class = "form-select"})
+                    <span asp-validation-for="RolId" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="btn-group">
+                        @*<i class="fas fa-check"></i><input type="submit" value="Create" class="btn btn-primary" /> &nbsp;&nbsp;*@
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar"></i> Guardar</button>
+                        &nbsp;&nbsp;
+                        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-2">
+                    @Html.LabelFor(m => m.Nombre)
+                </div>
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.ApellidoP)
+                </div>
+                <div class="col-md-4">
+                    @*<label asp-for="ApellidoM" class="control-label"></label>*@
+                    @Html.LabelFor(m => m.ApellidoM)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-5">
+                    @*<input asp-for="Nombre" class="form-control" />*@
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control"})
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    @*<input asp-for="ApellidoP" class="form-control" />*@
+                    @Html.TextBoxFor(m => m.ApellidoP, new { @class = "form-control"})
+                    <span asp-validation-for="ApellidoP" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    @*<input asp-for="ApellidoM" class="form-control" />*@
+                    @Html.TextBoxFor(m => m.ApellidoM, new { @class = "form-control"})
+                    <span asp-validation-for="ApellidoM" class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

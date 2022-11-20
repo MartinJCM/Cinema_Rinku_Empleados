@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Cinema_Rinku_Empleados.Models.EmpleadosModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+
+<body>
+    <div class="card">
+        <h5 class="card-header">Empleados de Cinematográfica Rinku</h5>
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-md-12 mb-3">
+                    <a class="btn btn-primary float-end" href="@Url.Action("Create")"><i class="fas fa-user-plus fa-lg" title="Nuevo"></i> Nuevo</a>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumeroEmpleado)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApellidoP)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApellidoM)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rol)
+                        </th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumeroEmpleado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoP)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApellidoM)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn" asp-action="Edit" asp-route-NumeroEmpleado="@item.NumeroEmpleado" title="Editar"><i class="fas fa-user-pen"></i></a>
+                                    @*@Html.ActionLink("Editar", "Edit", new {NumeroEmpleado=item.NumeroEmpleado})&nbsp;&nbsp;
+                                    @Html.ActionLink("Eliminar", "Delete", new {NumeroEmpleado=item.NumeroEmpleado  })*@
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
