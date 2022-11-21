@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Cinema_Rinku_Empleados.Models.EmpleadosModel>
+
+@{
+    ViewData["Title"] = "DetallesMovimientos";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+
+<body>
+    <div class="card">
+        <h5 class="card-header">Detalles de movimientos de @ViewBag.Nombre</h5>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumeroEmpleado)
+                        </th>
+                    @*    <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.Rol)
+                        </th>
+@*                        <th>
+                            @Html.DisplayNameFor(model => model.CantEntregas)
+                        </th>*@
+                        <th>
+                            @Html.DisplayNameFor(model => model.Horas)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PagoTotalXEntrega)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PagoTotalXBonos)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Retencion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Vale)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SueldoTotal)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Mes)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NumeroEmpleado)
+                            </td>
+                         @*   <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Rol)
+                            </td>
+@*                            <td>
+                                @Html.DisplayFor(modelItem => item.CantEntregas)
+                            </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Horas)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PagoTotalXEntrega)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PagoTotalXBonos)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Retencion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Vale)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SueldoTotal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Mes)
+                            </td>
+                            @*            <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

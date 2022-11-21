@@ -8,7 +8,7 @@
     <h5 class="card-header">Actualizar datos del empleado</h5>
     <div class="card-body">
 
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div class="row">
                 <div class="col-md-3 mb-2">
                     @Html.LabelFor(m => m.NumeroEmpleado)
@@ -23,6 +23,7 @@
             <div class="row col-">
                 <div class="col-md-3 mb-4">
                     @Html.TextBoxFor(m => m.NumeroEmpleado, new { @class = "form-control", disabled= true})
+                    @Html.TextBoxFor(m => m.NumeroEmpleado2, new { @class = "form-control", hidden= true})
                     <span asp-validation-for="NumeroEmpleado" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">

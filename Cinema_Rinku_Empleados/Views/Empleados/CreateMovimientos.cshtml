@@ -1,0 +1,70 @@
+﻿@model Cinema_Rinku_Empleados.Models.EmpleadosModel
+
+@{
+    ViewData["Title"] = "CreateMovimientos";
+}
+<div class="card">
+    <h5 class="card-header">Captura de movimientos por mes</h5>
+    <div class="card-body">
+        <form asp-action="CreateMovimientos">
+            <div class="row">
+                <div class="col-md-2 mb-2">
+                    @Html.LabelFor(m => m.NumeroEmpleado)
+                </div>
+                <div class="col-md-5">
+                    @Html.LabelFor(m => m.Nombre)  @*Mostrar los apellidos*@
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 mb-4">
+                    @Html.DropDownListFor(m => m.NumeroEmpleado, Model.ListEmpleados, new { @class = "form-select"})
+                </div>
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", disabled= true})
+                </div>
+                <div class="col-md-4">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check" data-bs-toggle="tooltip" data-bs-placement="top" title="Guardar"></i> Guardar</button>
+                        &nbsp;&nbsp;
+                        <a asp-action="Index" class="btn btn-secondary"><i class="fas fa-arrow-alt-circle-left"></i> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="control-label">Rol</label>
+                </div>
+                <div class="col-md-2 mb-2">
+                    @Html.LabelFor(m => m.CantEntregas)
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.Mes)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.TextBoxFor(m => m.Rol, new { @class = "form-control", disabled= true})
+                    @Html.TextBoxFor(m => m.RolId, new { @class = "form-control", hidden= true})
+                </div>
+                <div class="col-md-2 mb-2">
+                    @Html.TextBoxFor(m => m.CantEntregas, new { @class = "form-control"})
+                    <span asp-validation-for="CantEntregas" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.IdMes, Model.ListMeses, new { @class = "form-select"})
+                    @*<span asp-validation-for="IdMes" class="text-danger"></span>*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>let Url_1 = { ObtieneDatosEmpleado: '@Url.Action("DatosEmpleado","Empleados")' }</script>
+    <script src="~/js/ObtieneEmpleado.js"></script>
+    }
