@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card-header {
+    background-color: lightgray;
+    border: 10px;
+  /*  color:antiquewhite;*/
+}

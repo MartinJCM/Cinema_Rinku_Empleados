@@ -17,8 +17,15 @@ namespace Cinema_Rinku_Empleados.Controllers
         public ActionResult Index()
         {
             List<EmpleadosModel> LisEmp = new List<EmpleadosModel>();
-            LisEmp = emp.ObtieneTodosEmpleados();
+            try
+            {
+                LisEmp = emp.ObtieneTodosEmpleados();
+            }
 
+            catch (Exception ex)
+            {
+                return View(LisEmp);
+            }
             return View(LisEmp);
         }
 
@@ -27,7 +34,6 @@ namespace Cinema_Rinku_Empleados.Controllers
         {
             EmpleadosModel mod = new EmpleadosModel();
             mod.ListRoles =  ObtieneRoles();
-
             return View(mod);
         }
         // POST: EmpleadosController/Create
@@ -35,11 +41,11 @@ namespace Cinema_Rinku_Empleados.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EmpleadosModel model)
         {
-            string Respuesta = "";
+            string respuesta = "";
             try
             {
 
-                Respuesta = emp.Guardar(model);
+                respuesta = emp.Guardar(model);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -50,10 +56,10 @@ namespace Cinema_Rinku_Empleados.Controllers
         }
 
         // GET: EmpleadosController/Edit/5
-        public ActionResult Edit(int NumeroEmpleado)
+        public ActionResult Edit(int numeroEmpleado)
         {
             EmpleadosModel mod= new EmpleadosModel();
-            var datos = emp.ObtieneEmpleadoId(NumeroEmpleado);
+            var datos = emp.ObtieneEmpleadoId(numeroEmpleado);
             if (datos != null)
             {
                 mod.NumeroEmpleado = datos.NumeroEmpleado;
@@ -72,10 +78,10 @@ namespace Cinema_Rinku_Empleados.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EmpleadosModel model)
         {
-            string Respuesta = "";
+            string respuesta = "";
             try
             {
-                Respuesta = emp.Actualizar(model);
+                respuesta = emp.Actualizar(model);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -88,17 +94,25 @@ namespace Cinema_Rinku_Empleados.Controllers
         {
             List<SelectListItem> items = new List<SelectListItem>();
 
-            var listaRoles = emp.ObtieneRoles();
-            if (listaRoles.Count > 0)
+            try
             {
-                foreach (var item in listaRoles)
+                var listaRoles = emp.ObtieneRoles();
+                if (listaRoles.Count > 0)
                 {
-                    items.Add(new SelectListItem { Text = item.Rol, Value = item.RolId.ToString() });
+                    foreach (var item in listaRoles)
+                    {
+                        items.Add(new SelectListItem { Text = item.Rol, Value = item.RolId.ToString() });
+                    }
+                }
+                else
+                {
+                    items.Add(new SelectListItem { Text = "Sin Roles", Value = (0).ToString() });
                 }
             }
-            else
+            catch (Exception)
             {
-                items.Add(new SelectListItem { Text = "Sin Roles", Value = (0).ToString() });
+
+                items.Add(new SelectListItem { Text = "Sin Roles", Value = (0).ToString() }); // Debe ser mensaje de error
             }
             return items;
         }
@@ -114,10 +128,10 @@ namespace Cinema_Rinku_Empleados.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateMovimientos(EmpleadosModel  model)
         {
-            string Respuesta = "";
+            string respuesta = "";
             try
             {
-                Respuesta = emp.GuardarMovimientos(model);
+                respuesta = emp.GuardarMovimientos(model);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -134,24 +148,30 @@ namespace Cinema_Rinku_Empleados.Controllers
         public List<SelectListItem> ObtieneEmpleados()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-
-            var listaEmpleados = emp.ObtieneTodosEmpleados();
-            if (listaEmpleados.Count > 0)
+            try
             {
-                foreach (var item in listaEmpleados)
+                var listaEmpleados = emp.ObtieneTodosEmpleados();
+                if (listaEmpleados.Count > 0)
                 {
-                    items.Add(new SelectListItem { Text = item.NumeroEmpleado.ToString(), Value = item.NumeroEmpleado.ToString() });
+                    foreach (var item in listaEmpleados)
+                    {
+                        items.Add(new SelectListItem { Text = item.NumeroEmpleado.ToString(), Value = item.NumeroEmpleado.ToString() });
+                    }
+                }
+                else
+                {
+                    items.Add(new SelectListItem { Text = "Sin empleado", Value = (0).ToString() });
                 }
             }
-            else
+            catch (Exception)
             {
-                items.Add(new SelectListItem { Text = "Sin empleado", Value = (0).ToString() });
+                items.Add(new SelectListItem { Text = "Sin empleado", Value = (0).ToString() }); // Debe ser un mensaje de error
             }
             return items;
         }
-        public ActionResult DatosEmpleado(int NumeroEmpleado)
+        public ActionResult DatosEmpleado(int numeroEmpleado)
         {         
-            var datos = emp.ObtieneEmpleadoId(NumeroEmpleado);
+            var datos = emp.ObtieneEmpleadoId(numeroEmpleado);
 
             if (datos != null)
             {
@@ -168,25 +188,32 @@ namespace Cinema_Rinku_Empleados.Controllers
         public List<SelectListItem> ListaMeses()
         {
             List<SelectListItem> items = new List<SelectListItem>();
-
-            var listaMeses = emp.ObtieneMeses();
-            if (listaMeses.Count > 0)
+            try
             {
-                foreach (var item in listaMeses)
+                var listaMeses = emp.ObtieneMeses();
+                if (listaMeses.Count > 0)
                 {
-                    items.Add(new SelectListItem { Text = item.Mes, Value = item.IdMes.ToString() });
+                    foreach (var item in listaMeses)
+                    {
+                        items.Add(new SelectListItem { Text = item.Mes, Value = item.IdMes.ToString() });
+                    }
+                }
+                else
+                {
+                    items.Add(new SelectListItem { Text = "Sin Datos", Value = (0).ToString() });
                 }
             }
-            else
+            catch (Exception)
             {
-                items.Add(new SelectListItem { Text = "Sin Datos", Value = (0).ToString() });
+
+                items.Add(new SelectListItem { Text = "Sin Datos", Value = (0).ToString() });// Debe ser un mensaje de error
             }
             return items;
 
         }
-        public ActionResult DetallesMovimientos(int NumeroEmpleado)
+        public ActionResult DetallesMovimientos(int numeroEmpleado)
         {
-            var datos = emp.ObtieneEmpleadoId(NumeroEmpleado);
+            var datos = emp.ObtieneEmpleadoId(numeroEmpleado);
 
             if (datos != null)
             {
@@ -195,7 +222,7 @@ namespace Cinema_Rinku_Empleados.Controllers
             }
 
             List<EmpleadosModel> LisEmp = new List<EmpleadosModel>();
-            LisEmp = emp.DetallesMovimientoEmp(NumeroEmpleado);
+            LisEmp = emp.DetallesMovimientoEmp(numeroEmpleado);
 
             return View(LisEmp);
         }

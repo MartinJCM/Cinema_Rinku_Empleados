@@ -1,0 +1,67 @@
+-- 1) Se debe de crear la Base de Datos
+
+CREATE DATABASE CinemaRinku
+
+-- 2) Ejecutar los siguientes scripts (Creacion de tablas e insert)
+USE CinemaRinku
+
+CREATE TABLE MESES
+(
+IdMes INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+Mes VARCHAR(50),
+FechaAlta DATETIME
+); 
+
+INSERT INTO MESES VALUES('Enero', GetDate())
+INSERT INTO MESES VALUES('Febrero', GetDate())
+INSERT INTO MESES VALUES('Marzo', GetDate())
+INSERT INTO MESES VALUES('Abril', GetDate())
+INSERT INTO MESES VALUES('Mayo', GetDate())
+INSERT INTO MESES VALUES('Junio', GetDate())
+INSERT INTO MESES VALUES('Julio', GetDate())
+INSERT INTO MESES VALUES('Agosto', GetDate())
+INSERT INTO MESES VALUES('Septiembre', GetDate())
+INSERT INTO MESES VALUES('Octubre', GetDate())
+INSERT INTO MESES VALUES('Noviembre', GetDate())
+INSERT INTO MESES VALUES('Diciembre', GetDate()) 
+
+CREATE TABLE ROLES
+(
+IdRol INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+Rol VARCHAR(50),
+FechaAlta DATETIME
+); 
+
+INSERT INTO ROLES VALUES('Chofer', GetDate());
+INSERT INTO ROLES VALUES('Cargador', GetDate());
+INSERT INTO ROLES VALUES('Auxiliar', GetDate()); 
+
+CREATE TABLE EMPLEADOS (
+	NumEmpleado INT PRIMARY KEY NOT NULL,
+	IdRol INT NOT NULL,
+    Nombre VARCHAR (50) NOT NULL,
+    ApellidoP VARCHAR (50),
+	ApellidoM VARCHAR (50),
+	SueldoBase DECIMAL(10,5),
+	FechaAlta DATETIME,
+	FechaModificacion DATETIME,
+    CONSTRAINT fk FOREIGN KEY (IdRol) REFERENCES ROLES(IdRol)
+);
+
+CREATE TABLE MOVIMIENTOS_MENSUAL
+(
+IdMoviento INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
+NumEmpleado INT NOT NULL,
+IdRol		INT NOT NULL,
+IdMes		INT,
+Entregas	INT,
+Horas		INT,
+PagoTotalXEntrega DECIMAL(10,5),
+PagoTotalXBonos	  DECIMAL(10,5),
+Retencion		  DECIMAL(10,5),
+Vale			  DECIMAL(10,5),
+SueldoTotal		  DECIMAL(10,5),
+FechaCaptura	  DATETIME,
+CONSTRAINT fk1 FOREIGN KEY (NumEmpleado) REFERENCES EMPLEADOS(NumEmpleado),
+CONSTRAINT fk2 FOREIGN KEY (IdRol) REFERENCES ROLES(IdRol)
+); 

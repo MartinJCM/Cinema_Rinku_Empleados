@@ -14,7 +14,7 @@ if (numeroEmpleado != "") {
 
 function ObtieneDatosEpleado(numeroEmpleado) {
         $.ajax({
-            url: Url_1.ObtieneDatosEmpleado,
+            url: Url_.ObtieneDatosEmpleado,
             data: { numeroEmpleado },
         dataType: "json"
     }).done(function (data) {

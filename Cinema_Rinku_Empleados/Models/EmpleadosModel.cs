@@ -23,9 +23,9 @@ namespace Cinema_Rinku_Empleados.Models
         [Display(Name = "Apellido Paterno")]
         public string? ApellidoM { get; set; }
 
-        //[Display(Name = "Fecha Ingreso")]
         public string? FechaAlta { get; set; }
 
+        [Required(ErrorMessage = "Campo obligatorio")]
         [Display(Name = "Roles")]
         public int RolId { get; set; }
         public List<SelectListItem>? ListRoles { get; set; }

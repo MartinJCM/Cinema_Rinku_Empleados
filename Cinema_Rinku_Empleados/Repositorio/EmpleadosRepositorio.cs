@@ -9,17 +9,19 @@ namespace Cinema_Rinku_Empleados.Repositorio
     public class EmpleadosRepositorio
     {
         //public IConfiguration Configuration { get; set; }
-        //public EmpleadosRepositorio(IConfiguration configuration)
-        //{
-        //    configuration = configuration;
-        //}
-        
-        string conection = "Data Source=33924-VALTRE\\SQLEXPRESS;Initial Catalog=CinemaRinku;Integrated Security=True";
-
+        //string conection = "Data Source=33924-VALTRE\\SQLEXPRESS;Initial Catalog=CinemaRinku;Integrated Security=True";
+      
+        private static string conexionBD;
+        public EmpleadosRepositorio()
+        {
+            //configuration = configuration;
+            var bluilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+            conexionBD = bluilder.GetSection("ConnectionStrings:Connection").Value;
+        }
         public string Guardar(EmpleadosModel model)
         {
             string respuesta = "";
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Alta_Empleado", con))
                 {
@@ -43,7 +45,7 @@ namespace Cinema_Rinku_Empleados.Repositorio
         {
             List<Roles> listaRoles = new List<Roles>();
 
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Obtiene_Roles", con))
                 {
@@ -67,39 +69,38 @@ namespace Cinema_Rinku_Empleados.Repositorio
         public List<EmpleadosModel> ObtieneTodosEmpleados()
         {
             List<EmpleadosModel> listaEmpleados = new List<EmpleadosModel>();
-
-            using (SqlConnection con = new(conection))
-            {
-                using (SqlCommand cmd = new("Procedure_Obtiene_TodosEmpleados", con))
+                using (SqlConnection con = new(conexionBD))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-                    while (dr.Read())
+                    using (SqlCommand cmd = new("Procedure_Obtiene_TodosEmpleados", con))
                     {
-                        EmpleadosModel item = new EmpleadosModel();
-                        item.NumeroEmpleado = dr.GetInt32(0);
-                        item.Rol = dr.GetString(1);
-                        item.Nombre =dr.GetString(2);
-                        item.ApellidoP = dr.GetString(3);
-                        item.ApellidoM = dr.GetString(4);
-                        listaEmpleados.Add(item);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+                        SqlDataReader dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            EmpleadosModel item = new EmpleadosModel();
+                            item.NumeroEmpleado = dr.GetInt32(0);
+                            item.Rol = dr.GetString(1);
+                            item.Nombre = dr.GetString(2);
+                            item.ApellidoP = dr.GetString(3);
+                            item.ApellidoM = dr.GetString(4);
+                            listaEmpleados.Add(item);
+                        }
+                        cmd.Dispose();
+                        con.Close();
                     }
-                    cmd.Dispose();
-                    con.Close();
                 }
-            }
             return listaEmpleados;
         }
-        public EmpleadosDTO ObtieneEmpleadoId(int NumEmpleado)
+        public EmpleadosDTO ObtieneEmpleadoId(int numEmpleado)
         {
             EmpleadosDTO item= null;
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_OtieneEmpleado_Id", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@NumEmpleado", SqlDbType.Int).Value = NumEmpleado;
+                    cmd.Parameters.Add("@NumEmpleado", SqlDbType.Int).Value = numEmpleado;
 
                    con.Open();
                    SqlDataReader dr= cmd.ExecuteReader();
@@ -123,7 +124,7 @@ namespace Cinema_Rinku_Empleados.Repositorio
         public string Actualizar(EmpleadosModel model)
         {
             string respuesta = "";
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Actualiza_Empleado", con))
                 {
@@ -143,16 +144,16 @@ namespace Cinema_Rinku_Empleados.Repositorio
             }
             return respuesta;
         }
-        public List<EmpleadosModel> DetallesMovimientoEmp(int NumEmpleado)
+        public List<EmpleadosModel> DetallesMovimientoEmp(int numEmpleado)
         {
             List<EmpleadosModel> listaEmpleados = new List<EmpleadosModel>();
 
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Detalles_MovimientoEmp", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@NumEmpleado", SqlDbType.Int).Value = NumEmpleado;
+                    cmd.Parameters.Add("@NumEmpleado", SqlDbType.Int).Value = numEmpleado;
 
                     con.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -182,7 +183,7 @@ namespace Cinema_Rinku_Empleados.Repositorio
         public string GuardarMovimientos(EmpleadosModel model)
         {
             string respuesta = "";
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Alta_Movimientos", con))
                 {
@@ -205,7 +206,7 @@ namespace Cinema_Rinku_Empleados.Repositorio
         {
             List<MesesDTO> listaMeses = new List<MesesDTO>();
 
-            using (SqlConnection con = new(conection))
+            using (SqlConnection con = new(conexionBD))
             {
                 using (SqlCommand cmd = new("Procedure_Obtiene_Meses", con))
                 {
